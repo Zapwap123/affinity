@@ -43,20 +43,24 @@ function scheduleConferenceTalks(conferenceTalks) {
       const duration = talk.includes("lightning")
         ? 5
         : parseInt(talk.match(/\d+/)[0], 10);
-
       if (currentTime + duration <= NETWORKING_EVENT_START) {
         track.afternoon.push(`${formatTime(currentTime)} ${talk}`);
         currentTime += duration;
       } else if (currentTime + duration <= NETWORKING_EVENT_END) {
-        track.afternoon.push(`${formatTime(currentTime)} ${talk}`);
-        currentTime += duration;
-        // currentTime = NETWORKING_EVENT_END;
-      } else {
         track.afternoon.push(
-          `${formatTime(NETWORKING_EVENT_END)} Networking Event`
+          `${formatTime(NETWORKING_EVENT_START)} Networking Event`
         );
         currentTime = NETWORKING_EVENT_END;
       }
+      // if (currentTime + duration <= NETWORKING_EVENT_END) {
+      //   track.afternoon.push(`${formatTime(currentTime)} ${talk}`);
+      //   currentTime += duration;
+      // } else {
+      //   track.afternoon.push(
+      //     `${formatTime(NETWORKING_EVENT_END)} Networking Event`
+      //   );
+      //   currentTime = NETWORKING_EVENT_END;
+      // }
     }
 
     if (track.afternoon.length > 0) {
