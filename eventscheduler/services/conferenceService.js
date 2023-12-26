@@ -1,4 +1,4 @@
-// const { formatTime } = require("../utils/timeFormatter");
+const { formatTime } = require("../utils/timeFormatter");
 
 // Conference scheduling function
 function scheduleConferenceTalks(conferenceTalks) {
@@ -48,20 +48,25 @@ function scheduleConferenceTalks(conferenceTalks) {
         currentTime += duration;
       } else if (currentTime + duration <= NETWORKING_EVENT_END) {
         track.afternoon.push(
-          `${formatTime(NETWORKING_EVENT_START)} Networking Event`
+          `${formatTime(currentTime)} ${talk}`,
+          `${formatTime(NETWORKING_EVENT_END)} Networking Event`
         );
         currentTime = NETWORKING_EVENT_END;
       }
-      // if (currentTime + duration <= NETWORKING_EVENT_END) {
-      //   track.afternoon.push(`${formatTime(currentTime)} ${talk}`);
-      //   currentTime += duration;
-      // } else {
-      //   track.afternoon.push(
-      //     `${formatTime(NETWORKING_EVENT_END)} Networking Event`
-      //   );
-      //   currentTime = NETWORKING_EVENT_END;
-      // }
     }
+
+    // if (conferenceTalks.length === 1) {
+    //   console.log("LastItem : " + conferenceTalks);
+    //   const talk = conferenceTalks[0].replace(/\r$/, ""); // Remove "\r" at the end
+    //   const duration = talk.includes("lightning")
+    //     ? 5
+    //     : parseInt(talk.match(/\d+/)[0], 10);
+
+    //   track.afternoon.push(
+    //     `${formatTime(currentTime)} ${talk}`,
+    //     `${formatTime(NETWORKING_EVENT_END)} Networking Event`
+    //   );
+    // }
 
     if (track.afternoon.length > 0) {
       tracks.push(track);
@@ -71,19 +76,6 @@ function scheduleConferenceTalks(conferenceTalks) {
 
   return tracks;
 }
-
-function formatTime(minutes) {
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-  return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
-}
-// // Test output
-// const schedule = scheduleConferenceTalks(conferenceTalks);
-// schedule.forEach((track, index) => {
-//   console.log(`\nTrack ${index + 1}:`);
-//   track.morning.forEach((talk) => console.log(` ${talk}`));
-//   track.afternoon.forEach((talk) => console.log(` ${talk}`));
-// });
 
 module.exports = {
   scheduleConferenceTalks,
